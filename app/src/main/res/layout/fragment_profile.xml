@@ -12,15 +12,9 @@
         android:id="@+id/gallery_iv"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_below="@+id/BSelectImage"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        />
-    <Button
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/BSelectImage"
+        android:background="@color/black"
         />
 
 </RelativeLayout>
