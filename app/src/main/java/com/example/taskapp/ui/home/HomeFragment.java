@@ -48,9 +48,13 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void closeTaskFragment() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.action_navigation_home_to_taskFragment);
+    }
+
     public void openTaskFragment(){
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.taskFragment);
     }
-
 }

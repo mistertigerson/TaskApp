@@ -11,12 +11,14 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.taskapp.R;
 
 public class TaskFragment extends Fragment {
 
+    private Button button;
     private EditText editText;
 
     @Override
@@ -35,7 +37,8 @@ public class TaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         editText = view.findViewById(R.id.editText);
-        editText.setOnClickListener(new View.OnClickListener() {
+        button = view.findViewById(R.id.save_btn);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 save();
