@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
         initRecycler();
         adapter.setListener(new OnItemClickListener() {
 
+
             @Override
             public void onLong(int position) {
                 new AlertDialog.Builder(requireActivity())
@@ -74,13 +75,11 @@ public class HomeFragment extends Fragment {
                         })
                         .setNegativeButton("NO",null)
                         .show();
-
             }
 
             @Override
             public void onClick(int position) {
-                new AlertDialog.Builder(requireActivity())
-                        .setMessage("нажата").show();
+
             }
         });
 

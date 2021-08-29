@@ -46,7 +46,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.onBind(list.get(position));
 
-
         if(position%2==0){
             holder.itemView.setBackgroundColor(Color.DKGRAY);
 
@@ -72,6 +71,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public void removeItem(int position) {
         this.list.remove(position);
+        notifyDataSetChanged();
     }
 
 
