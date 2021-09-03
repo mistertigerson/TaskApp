@@ -28,17 +28,17 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.example.taskapp.ui.TaskFragment"
+        android:name="com.example.taskapp.ui.task.TaskFragment"
         android:label="Add New Task"
         tools:layout="@layout/fragment_task" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.taskapp.ProfileFragment"
+        android:name="com.example.taskapp.Preferences.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/boardFragment"
-        android:name="com.example.taskapp.ui.onBoarding.BoardFragment"
+        android:name="com.example.taskapp.ui.on_Boarding.BoardFragment"
         android:label="fragment_board"
         tools:layout="@layout/fragment_board" />
 

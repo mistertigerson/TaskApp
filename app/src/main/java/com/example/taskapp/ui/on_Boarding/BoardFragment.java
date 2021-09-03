@@ -1,6 +1,5 @@
-package com.example.taskapp.ui.onBoarding;
+package com.example.taskapp.ui.on_Boarding;
 
-import android.content.ClipData;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -11,18 +10,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.taskapp.Preferences.Preferences;
 import com.example.taskapp.R;
 import com.example.taskapp.databinding.FragmentBoardBinding;
-import com.example.taskapp.ui.OnItemListener;
+import com.example.taskapp.ui.interfaces.OnItemListener;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 
 
-public class BoardFragment extends Fragment implements OnItemListener, BoardAdapter.GetPosition {
+public class BoardFragment extends Fragment implements OnItemListener {
 
     private FragmentBoardBinding binding;
     private BoardAdapter adapter;
@@ -52,14 +51,13 @@ public class BoardFragment extends Fragment implements OnItemListener, BoardAdap
 
         binding.skipBtn.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-            navController.navigate(R.id.navigation_home);
+            navController.navigateUp();
+            close();
 
         });
 
 
-
         adapter.setListener(this);
-        adapter.setPosListener(this);
         dotsIndicator = (SpringDotsIndicator) view.findViewById(R.id.dots_indicator);
         ViewPager2 viewPager2 = binding.viewPager;
         viewPager2.setAdapter(adapter);
@@ -97,19 +95,13 @@ public class BoardFragment extends Fragment implements OnItemListener, BoardAdap
     }
 
 
-
-    @Override
-    public void getPosition(int position) {
-        Log.e("test34523523", "adapter position"+ position);
-//            if (position == 2){
-//                binding.skipBtn.setVisibility(View.INVISIBLE);
-//            }if(position == 0) {
-//                binding.skipBtn.setVisibility(View.VISIBLE);
-//            }if (position == 1){
-//                binding.skipBtn.setVisibility(View.VISIBLE);
-//        }
-
+    public void close(){
+        Preferences preferences = new Preferences(requireContext());
+        preferences.savedBoardStates();
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+        navController.navigateUp();
     }
+
 }
 
 

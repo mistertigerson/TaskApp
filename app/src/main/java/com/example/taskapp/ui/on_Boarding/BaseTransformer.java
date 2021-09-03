@@ -1,4 +1,4 @@
-package com.example.taskapp.ui.onBoarding;
+package com.example.taskapp.ui.on_Boarding;
 
 import android.view.View;
 

@@ -1,6 +1,5 @@
-package com.example.taskapp.ui;
+package com.example.taskapp.ui.task;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,14 +9,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.taskapp.OnItemClickListener;
 import com.example.taskapp.R;
 import com.example.taskapp.models.HomeModel;
 

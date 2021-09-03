@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.TaskFragment"
+    tools:context=".ui.task.TaskFragment"
     android:orientation="vertical"
     >
 
@@ -14,12 +14,15 @@
        android:hint="type a new task"
        android:inputType="textCapSentences"
        android:layout_margin="10dp"
+       android:background="@drawable/bq_edit"
        />
     <Button
         android:id="@+id/save_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:text="save"
+        android:textSize="20sp"
+        android:background="@drawable/bq_button"
 
         />
 

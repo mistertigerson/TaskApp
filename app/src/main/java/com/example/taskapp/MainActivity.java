@@ -2,11 +2,10 @@ package com.example.taskapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.taskapp.Preferences.Preferences;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -53,7 +52,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         contextOfApplication = getApplicationContext();
-        navController.navigate(R.id.boardFragment);
+        Preferences preferences = new Preferences(this);
+        if (preferences.isBoardShown()){
+            navController.navigate(R.id.boardFragment);
+        }
+
+
 
 
 

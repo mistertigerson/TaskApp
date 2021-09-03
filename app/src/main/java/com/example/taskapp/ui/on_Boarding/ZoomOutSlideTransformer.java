@@ -1,9 +1,6 @@
-package com.example.taskapp.ui.onBoarding;
+package com.example.taskapp.ui.on_Boarding;
 
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager2.widget.ViewPager2;
 
 
 public class ZoomOutSlideTransformer extends BaseTransformer {

@@ -1,6 +1,5 @@
-package com.example.taskapp.ui.onBoarding;
+package com.example.taskapp.ui.on_Boarding;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.taskapp.R;
-import com.example.taskapp.ui.OnItemListener;
+import com.example.taskapp.ui.interfaces.OnItemListener;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
@@ -26,9 +26,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         this.posListener =  posListener;
     }
 
-    private String[] deskText = new String[]{"салам ", "вместе", "будем"};
-    private String[] titles = new String[]{"Ребята","давайте" , "жить дружно"};
-    private int[] images = new int[]{R.drawable.first, R.drawable.second_tom, R.drawable.thirth_tom};
+    private String[] deskText = new String[]{"Fast ", "Security", "Smart"};
+    private String[] titles = new String[]{"Very","Absolutely" , "Amazing"};
+    private int[] images = new int[]{R.raw.rocket,R.raw.certified, R.raw.brain_bulb_charging};
 
     @NonNull
     @Override
@@ -42,7 +42,6 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         onItem(position);
         holder.onBind(position);
-//        posListener.getPosition(position);
     }
 
     public void onItem(int position) {
@@ -62,13 +61,14 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
         TextView textTitle, desk;
         ImageView imageView;
+        LottieAnimationView animationView;
         Button btn, btn1;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.title);
             desk = itemView.findViewById(R.id.textDesc);
-            imageView = itemView.findViewById(R.id.onBoarding_iv);
+            animationView = itemView.findViewById(R.id.animation);
             btn = itemView.findViewById(R.id.start_btn);
             btn1 = itemView.findViewById(R.id.skip_btn);
 
@@ -86,9 +86,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         public void onBind(int position) {
             desk.setText(deskText[position]);
             textTitle.setText(titles[position]);
-            imageView.setImageResource(images[position]);
-            posListener.getPosition(position);
-            Log.e("test234", "onBind: how many time is called "+ position);
+            animationView.setAnimation(images[position]);
             if (position==2){
                 btn.setVisibility(View.VISIBLE);
 

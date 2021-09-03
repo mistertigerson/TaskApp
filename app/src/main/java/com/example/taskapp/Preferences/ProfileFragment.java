@@ -1,42 +1,37 @@
-package com.example.taskapp;
+package com.example.taskapp.Preferences;
 
-import static android.app.Activity.RESULT_OK;
-import static android.content.Intent.createChooser;
+import static android.content.ContentValues.TAG;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
-
+import com.example.taskapp.Preferences.PersistantStorage;
 import com.example.taskapp.databinding.FragmentProfileBinding;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     private int SELECT_PICTURE = 200;
+    public static final String APP_PREFERENCES1 = "mysettings";
+    public static final String APP_PREFERENCES_NAME = "Username";
+    public static final String APP_PREFERENCES_AGE = "Age";
+    EditText editText;
+    public String username;
+    public SharedPreferences prefs;
 
 
     @Override
@@ -48,11 +43,41 @@ public class ProfileFragment extends Fragment {
         View view = binding.getRoot();
         return view;
 
+
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.saveBtn.setOnClickListener(v -> {
+            createPrefs();
+        });
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        prefs = context.getSharedPreferences(APP_PREFERENCES1, Context.MODE_PRIVATE);
+        username  = prefs.getString(APP_PREFERENCES_NAME, "true");
+
+
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
+
         binding.galleryIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +86,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    private void createPrefs() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(APP_PREFERENCES_NAME, binding.textInput1.getText().toString()).apply();
+        binding.usernameTv.setText(username);
     }
 
 

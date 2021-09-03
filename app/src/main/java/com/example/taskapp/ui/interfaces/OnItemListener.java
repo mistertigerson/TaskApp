@@ -1,4 +1,4 @@
-package com.example.taskapp.ui;
+package com.example.taskapp.ui.interfaces;
 
 public interface OnItemListener {
 
