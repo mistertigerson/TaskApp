@@ -1,5 +1,7 @@
 package com.example.taskapp.ui.task;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,24 +11,32 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.taskapp.App;
 import com.example.taskapp.R;
-import com.example.taskapp.models.HomeModel;
+import com.example.taskapp.databinding.FragmentTaskBinding;
+import com.example.taskapp.models.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class TaskFragment extends Fragment {
 
     private Button button;
-    private EditText editText;
+    private FragmentTaskBinding binding;
+    private Task task;
     private RecyclerView.ViewHolder viewHolder;
 
     @Override
@@ -37,15 +47,22 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task, container, false);
+        binding = FragmentTaskBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        editText = view.findViewById(R.id.editText);
+        task = (Task) requireArguments().getSerializable("task");
+        if (task != null){
+            binding.editText.setText(task.getName());
+
+        }
         button = view.findViewById(R.id.save_btn);
+
         button.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
@@ -56,16 +73,47 @@ public class TaskFragment extends Fragment {
     }
 
     private void save() {
-        String text = editText.getText().toString();
+        String text = binding.editText.getText().toString();
 
         if (text.isEmpty()) return;
-        Date currentTime = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat( "HH:mm dd-MMMM-yyyy");
-        String strDate = dateFormat.format(currentTime);
+
+        if (task == null){
+            Date currentTime = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat( "HH:mm dd-MMMM-yyyy");
+            String strDate = dateFormat.format(currentTime);
+
+            task = new Task(text, strDate);
+            App.getAppDataBase().taskDao().insert( task);
+            saveFirestore(task);
+
+        }else {
+            if (!task.getName().equals(text)){
+                task.setName(text);
+                App.getAppDataBase().taskDao().update(task);
+            }
+
+
+        }
+
+
         Bundle bundle = new Bundle();
-        HomeModel homeModel = new HomeModel(text, strDate);
-        bundle.putSerializable("homeModel", homeModel);
+        bundle.putSerializable("task ", task);
         getParentFragmentManager().setFragmentResult("homeModel1", bundle);
+        close();
+
+
+    }
+
+    private void saveFirestore(Task task) {
+        FirebaseFirestore.getInstance().
+                collection("users").
+                add(task).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(@NonNull DocumentReference documentReference) {
+                        Log.e(TAG, "onSuccess: " + documentReference.getId() );
+                    }
+                });
 
     }
 

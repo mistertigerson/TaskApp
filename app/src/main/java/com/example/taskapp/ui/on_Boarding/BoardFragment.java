@@ -1,6 +1,13 @@
 package com.example.taskapp.ui.on_Boarding;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -10,11 +17,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.taskapp.Preferences.Preferences;
+import com.example.taskapp.Preferences.Prefs;
 import com.example.taskapp.R;
 import com.example.taskapp.databinding.FragmentBoardBinding;
 import com.example.taskapp.ui.interfaces.OnItemListener;
@@ -45,13 +48,12 @@ public class BoardFragment extends Fragment implements OnItemListener {
         adapter = new BoardAdapter();
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         binding.skipBtn.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-            navController.navigateUp();
             close();
 
         });
@@ -88,15 +90,15 @@ public class BoardFragment extends Fragment implements OnItemListener {
 
         };
 
+
     @Override
     public void onClick(int position) {
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-        navController.navigate(R.id.navigation_home);
+        close();
     }
 
 
     public void close(){
-        Preferences preferences = new Preferences(requireContext());
+        Prefs preferences = new Prefs(requireContext());
         preferences.savedBoardStates();
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigateUp();

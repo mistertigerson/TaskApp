@@ -2,10 +2,15 @@ package com.example.taskapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.taskapp.Preferences.Preferences;
+import com.example.taskapp.Preferences.Prefs;
+import com.example.taskapp.ui.on_Boarding.BoardFragment;
+import com.example.taskapp.ui.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +23,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.taskapp.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     public NavDestination destination;
     public static Context contextOfApplication;
-    public static Context getContextOfApplication()
-    {
+    public static Context getContextOfApplication() {
         return contextOfApplication;
     }
 
@@ -42,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.profileFragment)
@@ -52,11 +55,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         contextOfApplication = getApplicationContext();
-        Preferences preferences = new Preferences(this);
-        if (preferences.isBoardShown()){
+
+        Prefs preferences = new Prefs(this);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null ){
+            navController.navigate(R.id.authFragment);
+        }
+        if (!preferences.isBoardShown()){
             navController.navigate(R.id.boardFragment);
         }
-
 
 
 
@@ -70,26 +76,40 @@ public class MainActivity extends AppCompatActivity {
                 tabFragments.add(R.id.navigation_notifications);
                 tabFragments.add(R.id.profileFragment);
 
-                if (tabFragments.contains(destination.getId())){
+                if (tabFragments.contains(destination.getId())) {
                     navView.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     navView.setVisibility(View.GONE);
                 }
-                if(destination.getId() == R.id.boardFragment){
+                if (destination.getId() == R.id.boardFragment) {
                     getSupportActionBar().hide();
-                }else {
+                } else {
                     getSupportActionBar().show();
                 }
             }
         });
 
 
+    }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.clear_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.clear_item:
+                return false;
+
+        }
+        return false;
     }
 
 
-    @Override
+        @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
